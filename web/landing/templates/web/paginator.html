@@ -3,16 +3,16 @@
 
 <div class="pagination">
     <span class="step-links">
-        {% if page_objects.has_previous %}
-            <a href="?page={{ page_objects.previous_page_number }}"><-назад!</a>
+        {% if objects.has_previous %}
+            <a href="?page={{ objects.previous_page_number }}"><-назад!</a>
         {% endif %}
 
         <span class="current">
-            Page {{ page_objects.number }} of {{ page_objects.paginator.num_pages }}
+            Page {{ objects.number }} of {{ objects.paginator.num_pages }}
         </span>
 
-        {% if page_objects.has_next %}
-            <a href="?page={{ page_objects.next_page_number }}">вперед!-></a>
+        {% if objects.has_next %}
+            <a href="?page={{ objects.next_page_number }}">вперед!-></a>
         {% endif %}
     </span>
 </div>

@@ -13,7 +13,10 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def post_list(request):
     posts=Question.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-    return render(request, 'web/post_list.html', {'posts': paginate(request, posts)})
+    return render(request, 'web/post_list.html', {
+        'posts': paginate(request, posts),
+        'objects': paginate(request, posts),
+    })
 
 def post_detail(request, pk):
     post = get_object_or_404(Question, pk=pk)
