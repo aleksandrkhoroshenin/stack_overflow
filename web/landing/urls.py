@@ -12,10 +12,11 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('login/confirm/', views.login_confirm, name="login_confirm"),
     path('logout/', views.logout_view, name='logout'),
-
     path('post/<int:pk>/comment/', views.add_comment_to_post, name='add_comment'),
-
     path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
+
+    path('top/', views.top, name='top'),
+    path('new/', views.new, name='new'),
 
     path('tag/<int:id>', views.tag, name='tag'),
 ]

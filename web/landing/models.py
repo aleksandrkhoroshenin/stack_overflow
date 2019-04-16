@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
 from django.db.models import Sum, Count
+from landing.manager import *
 
 class ModelManager(models.Manager):
     def new(self):
@@ -29,7 +30,7 @@ class Question(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
-    objects = ModelManager()
+    objects = QuestionManager()
 
     def like(self):
         self.likes += 1
@@ -68,20 +69,12 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
-class Answer(models.Model):
-    question = models.ForeignKey(Question, related_name="answers", on_delete=models.CASCADE)
-    text = models.TextField()
-    correct = models.BooleanField(default=False)
-    user = models.ForeignKey(Profile, blank=True, null=True, on_delete=models.CASCADE)
-
-
 class Tag(models.Model):
-
     question = models.ManyToManyField(Question, related_name="tags", related_query_name="tag")
     name = models.TextField()
 
 class Comment(models.Model):
-    post = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='comments')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
