@@ -8,36 +8,41 @@
 {% endblock %}
 
 {% block content %}
+<main role="main" class="container">
+        <div class="row">
+            <div class="col-8">
+                <div>
+                     <form action="{% url "login_confirm" %}" method="post">
 
-    <div>
-         <form action="{% url "login_confirm" %}" method="post">
+                         {% csrf_token %}
 
-             {% csrf_token %}
+                        <div class="form-group">
+                            <label class="control-label" for="inputSuccess">Login:</label>
+                            <input type="text" class="form-control sign-form" name="login" placeholder="Login"/>
+                        </div>
 
-            <div class="form-group">
-                <label class="control-label" for="inputSuccess">Login:</label>
-                <input type="text" class="form-control sign-form" name="login" placeholder="Login"/>
-            </div>
+                        <div class="form-group">
+                            <label class="control-label" for="inputSuccess">Password:</label>
+                            <input type="password" class="form-control sign-form" name="password" placeholder="Password"/>
+                            {#                <span class="help-block">Woohoo!</span>#}
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-default">Login</button>
+                             </div>
+                        </div>
 
-            <div class="form-group">
-                <label class="control-label" for="inputSuccess">Password:</label>
-                <input type="password" class="form-control sign-form" name="password" placeholder="Password"/>
-                {#                <span class="help-block">Woohoo!</span>#}
-            </div>
-
-             <div class="row">
-                <div class="col-2">
-                    <button type="submit" class="btn btn-default">Login</button>
+                     </form>
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="{% url "signup" %}"><button type="submit" class="btn btn-default">Create new account</button></a>
+                            </div>
+                         </div>
                 </div>
-                <div class="col-6">
-                    <a href="{% url "signup" %}"><button type="submit" class="btn btn-default">Create new account</button></a>
-                </div>
-             </div>
-         </form>
+            </div>
+        </div>
+</main>
 
-
-
-    </div>
 
 {% endblock %}
 

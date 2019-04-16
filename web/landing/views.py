@@ -32,7 +32,7 @@ def post_new(request):
         if form.is_valid():
             question = form.save(commit=False)
             question.author = request.user
-            question.title = ''
+            # question.title = ''
             # question.make_tags(request)
             question.published_date = timezone.now()
             question.save()
