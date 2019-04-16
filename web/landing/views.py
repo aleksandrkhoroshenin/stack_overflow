@@ -150,16 +150,16 @@ def comment_remove(request, pk):
 def top(request):
     return render(request, 'web/post_list.html', {
             'posts': paginate(request, Question.objects.get_hot()),
-            # 'tags' : paginate(request, Tag.objects.hottest()),
-            # 'users' : paginate(request, User.objects.by_rating()),
+            'tags': paginate(request, Tag.objects.all()),
+            'users': paginate(request, User.objects.all()),
             'objects': paginate(request, Question.objects.all()),
         })
 
 def new(request):
     return render(request, 'web/post_list.html', {
             'posts': paginate(request, Question.objects.get_new()),
-            # 'tags' : paginate(request, Tag.objects.hottest()),
-            # 'users' : paginate(request, User.objects.by_rating()),
+            'tags': paginate(request, Tag.objects.all()),
+            'users': paginate(request, User.objects.all()),
             'objects': paginate(request, Question.objects.all()),
         })
 
