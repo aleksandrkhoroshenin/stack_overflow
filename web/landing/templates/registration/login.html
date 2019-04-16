@@ -18,11 +18,6 @@
                 <label class="control-label" for="inputSuccess">Login:</label>
                 <input type="text" class="form-control sign-form" name="login" placeholder="Login"/>
             </div>
-            <div class="form-group has-error error">
-                <label class="control-label" for="inputError">Login:</label>
-                <input type="text" class="form-control sign-form" name="login_error" placeholder="Login"/>
-                <span class="help-block">Please correct the error</span>
-            </div>
 
             <div class="form-group">
                 <label class="control-label" for="inputSuccess">Password:</label>
@@ -30,16 +25,17 @@
                 {#                <span class="help-block">Woohoo!</span>#}
             </div>
 
-            <div class="form-group has-error error">
-                <label class="control-label" for="inputError">Password:</label>
-                <input type="password" class="form-control sign-form" name="password_error" placeholder="Password"/>
-                <span class="help-block">Please correct the error</span>
-            </div>
-
-             <button type="submit" class="btn btn-default">Login</button>
+             <div class="row">
+                <div class="col-2">
+                    <button type="submit" class="btn btn-default">Login</button>
+                </div>
+                <div class="col-6">
+                    <a href="{% url "signup" %}"><button type="submit" class="btn btn-default">Create new account</button></a>
+                </div>
+             </div>
          </form>
 
-          <a href="{% url "signup" %}"><button type="submit" class="btn btn-default">Create new account</button></a>
+
 
     </div>
 
