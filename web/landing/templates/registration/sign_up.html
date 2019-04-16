@@ -1,0 +1,73 @@
+{% extends "web/base.html" %}
+
+{% block headers %}
+
+    <div class="container underline">
+    <p class="headers">Registration</p>
+    </div>
+
+{% endblock %}
+
+
+
+
+{% block content %}
+
+    <div>
+
+        <form  action="{% url 'signup_confirm' %}" method="post">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="control-label" for="inputSuccess">Login:</label>
+                <input type="text" class="form-control sign-form" name="login" placeholder="Login"/>
+                {#                <span class="help-block">Woohoo!</span>#}
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="inputSuccess">E-mail:</label>
+                <input type="text" class="form-control sign-form" name="email" placeholder="E-mail"/>
+                {#                <span class="help-block">Woohoo!</span>#}
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="inputSuccess">Nickname:</label>
+                <input type="text" class="form-control sign-form" name="nickname" placeholder="Nickname"/>
+                {#                <span class="help-block">Woohoo!</span>#}
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="inputSuccess">Password:</label>
+                <input type="password" class="form-control sign-form" name="password" placeholder="Password"/>
+
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="inputSuccess">Repeat password:</label>
+                <input type="password" class="form-control sign-form" name="password_repeat" placeholder="Repeat password"/>
+                {#                <span class="help-block">Woohoo!</span>#}
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="inputSuccess">Upload avatar:</label>
+                <input id="input-b1" name="input-b1" type="file" class="file"/>
+                {#                <span class="help-block">Woohoo!</span>#}
+            </div>
+
+            <button type="submit" class="btn btn-default">Submit</button>
+
+        </form>
+
+    </div>
+
+{% endblock %}
+
+
+
+{#{% block right-main-content %}#}
+{#    {% include "right-content.html" %}#}
+{#{% endblock %}#}
+
+{% block bottom %}
+{% endblock %}

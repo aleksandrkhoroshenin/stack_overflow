@@ -1,0 +1,55 @@
+{% extends "web/base.html" %}
+
+{% block headers %}
+    <div class="container underline">
+    <p class="headers">Log in</p>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+
+    <div>
+         <form action="{% url "login_confirm" %}" method="post">
+
+             {% csrf_token %}
+
+            <div class="form-group">
+                <label class="control-label" for="inputSuccess">Login:</label>
+                <input type="text" class="form-control sign-form" name="login" placeholder="Login"/>
+            </div>
+            <div class="form-group has-error error">
+                <label class="control-label" for="inputError">Login:</label>
+                <input type="text" class="form-control sign-form" name="login_error" placeholder="Login"/>
+                <span class="help-block">Please correct the error</span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="inputSuccess">Password:</label>
+                <input type="password" class="form-control sign-form" name="password" placeholder="Password"/>
+                {#                <span class="help-block">Woohoo!</span>#}
+            </div>
+
+            <div class="form-group has-error error">
+                <label class="control-label" for="inputError">Password:</label>
+                <input type="password" class="form-control sign-form" name="password_error" placeholder="Password"/>
+                <span class="help-block">Please correct the error</span>
+            </div>
+
+             <button type="submit" class="btn btn-default">Login</button>
+         </form>
+
+          <a href="{% url "signup" %}"><button type="submit" class="btn btn-default">Create new account</button></a>
+
+    </div>
+
+{% endblock %}
+
+
+
+{#{% block right-main-content %}#}
+{#    {% include "right-content.html" %}#}
+{#{% endblock %}#}
+
+{% block bottom %}
+{% endblock %}
