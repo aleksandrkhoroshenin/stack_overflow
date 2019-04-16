@@ -20,6 +20,11 @@ class ModelManager(models.Manager):
     def hottest(self):
         return self.annotate(question_count=Count('question')).order_by('-question_count')
 
+class Tag(models.Model):
+    title = models.CharField(max_length=120, verbose_name=u"Заголовок ярлыка")
+
+    def __str__(self):
+        return self.title
 
 class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -29,7 +34,7 @@ class Question(models.Model):
     dislikes = models.IntegerField(blank=True, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
-
+    tags = models.ManyToManyField(Tag, blank=True)
     objects = QuestionManager()
 
     def like(self):
@@ -68,10 +73,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-class Tag(models.Model):
-    question = models.ManyToManyField(Question, related_name="tags", related_query_name="tag")
-    name = models.TextField()
 
 class Comment(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='comments')

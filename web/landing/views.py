@@ -3,7 +3,7 @@ from .models import Question, Profile, Tag, Comment
 from .forms import CommentForm
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
-from .forms import PostForm
+from .forms import QuestionForm
 from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -13,9 +13,11 @@ from django.http import Http404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def post_list(request):
-    posts=Question.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+    posts = Question.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     return render(request, 'web/post_list.html', {
         'posts': paginate(request, posts),
+        'tags': paginate(request, Tag.objects.all()),
+        'users':paginate(request, User.objects.all()),
         'objects': paginate(request, posts),
     })
 
@@ -26,30 +28,33 @@ def post_detail(request, pk):
 #@login_required
 def post_new(request):
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = QuestionForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save()
-            return redirect('post_detail', pk=post.pk)
+            question = form.save(commit=False)
+            question.author = request.user
+            question.title = ''
+            # question.make_tags(request)
+            question.published_date = timezone.now()
+            question.save()
+            return redirect('post_detail', pk=question.pk)
     else:
-        form = PostForm()
+        form = QuestionForm()
     return render(request, 'web/post_edit.html', {'form': form})
 
 #@login_required
 def post_edit(request, pk):
-    post = get_object_or_404(Question, pk=pk)
+    question = get_object_or_404(Question, pk=pk)
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+        form = QuestionForm(request.POST, instance=question)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save()
-            return redirect('post_detail', pk=post.pk)
+            question = form.save(commit=False)
+            question.author = request.user
+            # question.make_tags(request)
+            question.published_date = timezone.now()
+            question.save()
+            return redirect('post_detail', pk=question.pk)
     else:
-        form = PostForm(instance=post)
+        form = QuestionForm(instance=question)
     return render(request, 'web/post_edit.html', {'form': form})
 
 def login(request):
@@ -92,9 +97,17 @@ def sign_up_confirm(request):
 
 def tag(request, id):
     return render(request, 'web/sidebar.html', {
-            'questions': paginate(request, Question.objects.get_by_tag(tag_id=id)),
-            'tags': paginate(request, Tag.objects.hottest()),
-            'users': paginate(request, User.objects.all),
+            # 'questions': paginate(request, Question.objects.get_by_tag(tag_id=id)),
+            'tags': paginate(request, Tag.objects.all()),
+            'users': paginate(request, User.objects.all()),
+    })
+
+def profile(request, id):
+    return render(request, 'registration/user.html', {
+            #'user': get_object_or_404(User, pk=id),
+            'profile': get_object_or_404(User, pk=id),
+            # 'tags' : paginate(request, Tag.objects.all()),
+            # 'users' : paginate(request, User.objects.all()),
     })
 
 def paginate(request, objects_list):
@@ -149,3 +162,4 @@ def new(request):
             # 'users' : paginate(request, User.objects.by_rating()),
             'objects': paginate(request, Question.objects.all()),
         })
+

@@ -7,24 +7,49 @@
 {#        <a href="{% url 'top' %}" class="btn btn-secondary" style="width:243px">Понравилось</a>#}
     </div>
 
-    {% for post in posts %}
-        <ul class="list-group">
-            <li class="list-group-item">
-                <div class="post">
-                    <div class="date", class="top-menu">
-                        {{ post.published_date }}
-                    </div>
-                    <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-                    <p>{{ post.text|linebreaksbr }}</p>
-                    <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
-                </div>
-            </li>
-        </ul>
+       <main role="main" class="container">
+        <div class="row">
+            <div class="col-8">
+                    {% for post in posts %}
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="post">
+                                    <div class="date", class="top-menu">
+                                        {{ post.published_date }}
+                                    </div>
+                                    <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+                                    <p>{{ post.text|linebreaksbr }}</p>
+                                    <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+                                    <p>Tags:</p><input name="question_tags" type="text"  class="form-control ask-name" placeholder="Hashtags"/>
+                                </div>
+                            </li>
+                        </ul>
 
-    {% endfor %}
+                    {% endfor %}
+                {% block paginator %}
+                    {% include "web/paginator.html" %}
+                {% endblock %}
+            </div>
+            <div class="col-4">
+              <div class="sidebar">
+                                <h4>Popular tags</h4>
+                                {% for t in tags %}
+                                    <a href="{% url 'tag' id=t.id %}">{{ t.title }}</a>
+                                {% endfor %}
+                                <p>
+                                <h4>Top users</h4>
+                                    {% for user in users %}
+                                        <p><a href="{% url 'user' id=user.id %}">{{ user }}</a></p>
+                                    {% endfor %}
+                                </p>
+              </div>
 
-    {% block paginator %}
-        {% include "web/paginator.html" %}
-    {% endblock %}
+            </div>
+        </div>
+    </main>
+
+
+
+
 
 {% endblock %}

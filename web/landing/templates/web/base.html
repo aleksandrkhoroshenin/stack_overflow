@@ -24,20 +24,8 @@
         {% endblock %}
     </header>
 
+    {% block content %}{% endblock %}
 
-   <main role="main" class="container">
-        <div class="row">
-            <div class="col-8">
-                {% block content %}{% endblock %}
-            </div>
-            <div class="col-4">
-                {% block sidebar %}
-                    {% include "web/sidebar.html" %}
-                {% endblock %}
-
-            </div>
-        </div>
-    </main>
 {#    <script src="{% static "js/jquery.min.js" %}"></script>#}
 {#    <script src="{% static "js/popper.min.js" %}"></script>#}
 {#    <script src="{% static "js/bootstrap.min.js" %}"></script>#}
