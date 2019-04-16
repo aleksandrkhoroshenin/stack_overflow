@@ -12,4 +12,6 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('login/confirm/', views.login_confirm, name="login_confirm"),
     path('logout/', views.logout_view, name='logout'),
+
+    path('tag/<int:id>', views.tag, name='tag'),
 ]

@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
+from django.db.models import Sum, Count
 
 class ModelManager(models.Manager):
     def new(self):
@@ -11,6 +12,13 @@ class ModelManager(models.Manager):
 
     def hot(self):
         return self.order_by('-likes')
+
+    def get_by_tag(self, tag_id):
+        return self.all().filter(tags__id=tag_id)
+
+    def hottest(self):
+        return self.annotate(question_count=Count('question')).order_by('-question_count')
+
 
 class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)

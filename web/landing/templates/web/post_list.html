@@ -2,12 +2,22 @@
 
 {% block content %}
     {% for post in posts %}
-        <div class="post">
-            <div class="date", class="top-menu">
-                {{ post.published_date }}
-            </div>
-            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-            <p>{{ post.text|linebreaksbr }}</p>
-        </div>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="post">
+                    <div class="date", class="top-menu">
+                        {{ post.published_date }}
+                    </div>
+                    <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+                    <p>{{ post.text|linebreaksbr }}</p>
+                </div>
+            </li>
+        </ul>
+
     {% endfor %}
+
+    {% block paginator %}
+        {% include "web/paginator.html" %}
+    {% endblock %}
+
 {% endblock %}

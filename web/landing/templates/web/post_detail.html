@@ -1,7 +1,8 @@
 {% extends "web/base.html" %}
 
 {% block content %}
-    <div class="post">
+      <li class="list-group-item">
+              <div class="post">
         {% if post.published_date %}
             <div class="date">
                 {{ post.published_date }}
@@ -14,4 +15,5 @@
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaksbr }}</p>
     </div>
+      </li>
 {% endblock %}

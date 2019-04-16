@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Question, Profile
+from .models import Question, Profile, Tag
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from .forms import PostForm
@@ -9,10 +9,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.http import Http404
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def post_list(request):
     posts=Question.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-    return render(request, 'web/post_list.html', {'posts': posts})
+    return render(request, 'web/post_list.html', {'posts': paginate(request, posts)})
 
 def post_detail(request, pk):
     post = get_object_or_404(Question, pk=pk)
@@ -85,3 +86,21 @@ def sign_up_confirm(request):
 
     return redirect("post_list")
 
+def tag(request, id):
+    return render(request, 'web/sidebar.html', {
+            'questions': paginate(request, Question.objects.get_by_tag(tag_id=id)),
+            'tags': paginate(request, Tag.objects.hottest()),
+            'users': paginate(request, User.objects.all),
+    })
+
+def paginate(request, objects_list):
+    paginator = Paginator(objects_list, 5)
+    page = request.GET.get('page')
+    try:
+        objects = paginator.page(page)
+    except PageNotAnInteger:
+        objects = paginator.page(1)
+    except EmptyPage:
+        objects = paginator.page(paginator.num_pages)
+
+    return objects
