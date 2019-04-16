@@ -4,7 +4,7 @@
 <div class="pagination">
     <span class="step-links">
         {% if objects.has_previous %}
-            <a href="?page={{ objects.previous_page_number }}"><-назад!</a>
+            <a href="?page={{ objects.previous_page_number }}"><-back!</a>
         {% endif %}
 
         <span class="current">
@@ -12,7 +12,7 @@
         </span>
 
         {% if objects.has_next %}
-            <a href="?page={{ objects.next_page_number }}">вперед!-></a>
+            <a href="?page={{ objects.next_page_number }}">forward!-></a>
         {% endif %}
     </span>
 </div>
