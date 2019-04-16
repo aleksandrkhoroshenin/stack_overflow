@@ -1,15 +1,22 @@
 {% extends "web/base.html" %}
+{% load static %}
 
 {% block content %}
        <main role="main" class="container">
         <div class="row">
-            <div class="col-8">
+            <div class="col-10">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <a href="{% url 'new' %}" class="btn btn-secondary mr-sm-2" style="width:360px">New</a>
                     <a href="{% url 'top' %}" class="btn btn-secondary mr-sm-2" style="width:360px">Hot</a>
             {#        <a href="{% url 'top' %}" class="btn btn-secondary" style="width:243px">Понравилось</a>#}
                 </div>
+
                     {% for post in posts %}
+                        <div class="row">
+                        <div class="col-2">
+                          <img class="img-thumbnail img-fluid" src={% static "/img/1.png"%}>
+                        </div>
+                        <div class="col-10">
                         <ul class="list-group">
                             <li class="list-group-item">
                                 <div class="post">
@@ -17,33 +24,25 @@
                                         {{ post.published_date }}
                                     </div>
                                     <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-                                    <p>{{ post.text|linebreaksbr }}</p>
-                                    <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
-                                    <p>Tags:</p><input name="question_tags" type="text"  class="form-control ask-name" placeholder="Hashtags"/>
+                                    <h6><p>{{ post.text|linebreaksbr }}</p></h6>
+                                    <a href="{% url 'post_detail' pk=post.pk %}"><h6>Comments: {{ post.comments.count }}</h6></a>
+                                    <h6><p>Tags: {{ post.tags }}</p></h6>
                                 </div>
                             </li>
                         </ul>
-
+                        </div>
+                        </div>
                     {% endfor %}
                 {% block paginator %}
                     {% include "web/paginator.html" %}
                 {% endblock %}
             </div>
-            <div class="col-4">
-              <div class="sidebar">
-                                <h4>Popular tags</h4>
-                                {% for t in tags %}
-                                    <a href="{% url 'tag' id=t.id %}">{{ t.title }}</a>
-                                {% endfor %}
-                                <p>
-                                <h4>Top users</h4>
-                                    {% for user in users %}
-                                        <p><a href="{% url 'user' id=user.id %}">{{ user }}</a></p>
-                                    {% endfor %}
-                                </p>
-              </div>
 
-            </div>
+{#            <div class="col-2">#}
+{#              {% block sidebar %}#}
+{#              {% endblock %}#}
+{##}
+{#            </div>#}
         </div>
     </main>
 

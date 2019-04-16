@@ -1,4 +1,16 @@
-{% load static %}
+{% extends "web/base.html" %}
 {% block sidebar %}
+
+        <h4>Popular tags</h4>
+        {% for t in tags %}
+            <a href="{% url 'tag' id=t.id %}">{{ t.title }}</a>
+        {% endfor %}
+
+        <p>
+        <h4>Top users</h4>
+        {% for user in users %}
+           <p> <a href="{% url 'user' id=user.id %}">{{ user }}</a>
+        {% endfor %}
+
 
 {% endblock %}
