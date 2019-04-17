@@ -55,7 +55,11 @@ h1, h2, h3, h4, h6 {
 }
 
 .post {
-    margin-bottom: 50px;
+    margin-bottom: 5px;
+}
+
+.list-group{
+    margin-bottom: 10px;
 }
 
 .post h1 a, .post h1 a:visited {
@@ -83,4 +87,8 @@ h1, h2, h3, h4, h6 {
     background: #30006f;
     border: 1px solid #30006f;
     border-radius: 50%;
+}
+
+.createaccbutt{
+    margin-top: 10px;
 }

@@ -4,8 +4,6 @@
     <head>
         <title> Answer Overflow </title>
         <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
-{#        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">#}
-{#        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">#}
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link href="https://fonts.googleapis.com/css?family=Itim" rel="stylesheet">
         <meta charset="utf-8">
@@ -18,16 +16,16 @@
    <body>
 
     <header>
-        {% block page-header %}
             {% include "web/pageheader.html" %}
-        {% endblock %}
     </header>
-    <div class="pow">
+
+    <div class="container-fluid">
+    <div class="row">
     <div class="col-8">
     {% block content %}{% endblock %}
     </div>
     <div class="col-4">
-        {% block sidebar %}{% endblock %}
+        {% include "web/sidebar.html" %}
     </div>
     </div>
     </body>

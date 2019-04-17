@@ -5,10 +5,10 @@ from django.db.models import Sum, Count
 class QuestionManager(models.Manager):
 
     def get_hot(self):
-        return self.all().order_by('likes').reverse()
+        return self.all().order_by('-likes')
 
     def get_new(self):
-        return self.all().order_by('created_date').reverse()
+        return self.all().order_by('-created_date')
 
 
 class CommentManager(models.Manager):
