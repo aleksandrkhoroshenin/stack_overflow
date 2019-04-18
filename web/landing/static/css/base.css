@@ -29,8 +29,9 @@ body {
     margin-left: 40px;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h6 {
     font-family: 'Itim', cursive;
+    color: black;
 }
 
 .date {
@@ -71,4 +72,15 @@ h1, h2, h3, h4 {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.img-* {
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    width:64px;
+    height:64px;
+    background: #30006f;
+    border: 1px solid #30006f;
+    border-radius: 50%;
 }
