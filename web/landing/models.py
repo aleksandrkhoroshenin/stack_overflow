@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
 from django.db.models import Sum, Count
-from landing.manager import *
+from .manager import *
 
 class ModelManager(models.Manager):
     def new(self):
@@ -20,8 +20,21 @@ class ModelManager(models.Manager):
     def hottest(self):
         return self.annotate(question_count=Count('question')).order_by('-question_count')
 
+# class User(AbstractUser):
+#     upload = models.ImageField(upload_to='uploads/%Y/%m/%d/')
+#     registration_date = models.DateTimeField(default=timezone.now, verbose_name="Дата решистрации")
+#     rating = models.IntegerField(default=0, verbose_name="Рейтинг пользователя")
+#
+#     objects = UserManager()
+#
+#     def __str__(self):
+#         return self.username
+
+
 class Tag(models.Model):
     title = models.CharField(max_length=120, verbose_name=u"Заголовок ярлыка")
+
+    objects = TagManager()
 
     def __str__(self):
         return self.title
@@ -68,6 +81,7 @@ class Question(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    upload = models.ImageField(upload_to='uploads/%Y/%m/%d/')
     # nickname = models.TextField()
     # avatar = models.ImageField(default=)
 

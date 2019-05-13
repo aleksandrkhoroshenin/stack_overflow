@@ -3,7 +3,7 @@
 
         <h4>Popular tags</h4>
         {% for t in tags %}
-            <a href="{% url 'tag' id=t.id %}">{{ t.title }}</a>
+            <a href="{% url 'tags' id=t.id %}">{{ t }}</a>
         {% endfor %}
 
         <p>

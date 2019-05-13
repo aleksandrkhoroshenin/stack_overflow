@@ -17,13 +17,16 @@ def post_list(request):
     return render(request, 'web/post_list.html', {
         'posts': paginate(request, posts),
         'tags': paginate(request, Tag.objects.all()),
-        'users':paginate(request, User.objects.all()),
+        'users': paginate(request, User.objects.all()),
         'objects': paginate(request, posts),
     })
 
 def post_detail(request, pk):
     post = get_object_or_404(Question, pk=pk)
-    return render(request, 'web/post_detail.html', {'post': post})
+    return render(request, 'web/post_detail.html', {
+        'post': post,
+        # 'tags': post.tags,
+    })
 
 #@login_required
 def post_new(request):
@@ -36,6 +39,10 @@ def post_new(request):
             # question.make_tags(request)
             question.published_date = timezone.now()
             question.save()
+            # for tagTitle in form.cleaned_data['tags'].all():
+            #     tag = Tag.objects.get_or_create(title=tagTitle)[0]
+            #     question.tags.add(tag)
+            #     question.save()
             return redirect('post_detail', pk=question.pk)
     else:
         form = QuestionForm()
@@ -52,6 +59,9 @@ def post_edit(request, pk):
             # question.make_tags(request)
             question.published_date = timezone.now()
             question.save()
+            # for tagTitle in form.cleaned_data['tags'].all():
+            #     tag = Tag.objects.get_or_create(title=tagTitle)[0]
+            #     question.tags.add(tag)
             return redirect('post_detail', pk=question.pk)
     else:
         form = QuestionForm(instance=question)
@@ -86,7 +96,8 @@ def sign_up(request):
 def sign_up_confirm(request):
     user = User.objects.create_user(username=request.POST['login'],
                                     email=request.POST['email'],
-                                    password=request.POST['password'])
+                                    password=request.POST['password'],
+                                    upload=request.POST[''])
 
     profile = Profile(user=user)
     profile.save()

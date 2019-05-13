@@ -23,7 +23,7 @@ class QuestionForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields = ('title', 'text', ) # 'tags'
+        fields = ('title', 'text',) # 'tags'
 
 class CommentForm(forms.ModelForm):
 

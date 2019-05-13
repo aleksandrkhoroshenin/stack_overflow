@@ -19,5 +19,5 @@ urlpatterns = [
     path('new/', views.new, name='new'),
 
     path('user/<int:id>/', views.profile, name='user'),
-    path('tag/<int:id>', views.tag, name='tag'),
+    path('tag/<int:id>', views.tag, name='tags'),
 ]
