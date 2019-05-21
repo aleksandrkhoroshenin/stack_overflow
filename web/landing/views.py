@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import Question, Profile, Tag, Comment
-from .forms import CommentForm
+from .models import Question, Tag, Comment
+from .forms import CommentForm, LoginForm, UserSettingsForm
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
-from .forms import QuestionForm
+from .forms import QuestionForm, UserRegistrationForm, LoginForm
 from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -11,6 +11,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib.auth import authenticate, login, logout
 
 def post_list(request):
     posts = Question.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
@@ -57,43 +58,70 @@ def post_edit(request, pk):
         form = QuestionForm(instance=question)
     return render(request, 'web/post_edit.html', {'form': form})
 
-def login(request):
-    return render(request, "registration/login.html", {})
+def edit(request):
+    user = get_object_or_404(User, username=request.user)
 
-def logout_view(request):
+    if request.method == 'POST':
+        form = UserSettingsForm(instance=user,
+                               data=request.POST,
+                               files=request.FILES
+                              )
+        if form.is_valid():
+            form.save()
+            return profile(request, user.id)
+    else:
+        form = UserSettingsForm(instance=user)
+
+    return render(request, 'question/edit.html', {
+            'form': form,
+            'tags' : paginate(request, Tag.objects.hottest()),
+            'users' : paginate(request, User.objects.by_rating()),
+        })
+
+def signin(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("post_list")
+    else:
+        form = LoginForm()
+        # logout(request)
+    return render(request, 'registration/login.html', {
+            'form': form
+            # 'tags' : paginate(request, Tag.objects.hottest()),
+            # 'users' : paginate(request, User.objects.by_rating()),
+        })
+
+def registration(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            login(request, user)
+            return redirect("post_list")
+    else:
+        form = UserRegistrationForm()
+        logout(request)
+    return render(request, 'registration/sign_up.html', {
+            'form': form,
+            # 'tags' : paginate(request, Tag.objects.hottest()),
+            # 'users' : paginate(request, User.objects.by_rating()),
+        })
+
+def signout(request):
     if not request.user.is_authenticated:
         raise Http404
     logout(request)
-    return redirect("login")
+    #return redirect(request.GET['from'])
+    return redirect("signin")
 
-def login_confirm(request):
-
-    login = request.POST['login']
-    password = request.POST['password']
-    user = auth.authenticate(username=login, password=password)
-
-    if user is not None and user.is_active:
-        auth.login(request, user)
-        return redirect("post_list")
-
-    else:
-        redirect("login")
-
-def sign_up(request):
-    return render(request, 'registration/sign_up.html')
-
-
-def sign_up_confirm(request):
-    user = User.objects.create_user(username=request.POST['login'],
-                                    email=request.POST['email'],
-                                    password=request.POST['password'])
-
-    profile = Profile(user=user)
-    profile.save()
-    user.save()
-    auth.login(request, user)
-
-    return redirect("post_list")
 
 def tag(request, id):
     return render(request, 'web/sidebar.html', {

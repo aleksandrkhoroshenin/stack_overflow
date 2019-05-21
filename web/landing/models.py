@@ -1,4 +1,4 @@
-#from django.db import models
+# from django.db import models
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
 from django.db.models import Sum, Count
 from landing.manager import *
+
 
 class ModelManager(models.Manager):
     def new(self):
@@ -20,11 +21,35 @@ class ModelManager(models.Manager):
     def hottest(self):
         return self.annotate(question_count=Count('question')).order_by('-question_count')
 
+
+# class User(AbstractUser):
+#     User = settings.AUTH_USER_MODEL
+#     upload = models.ImageField(upload_to='uploads/%Y/%m/%d/')
+#     # registration_date = models.DateTimeField(default=timezone.now, verbose_name="Дата решистрации")
+#     # rating = models.IntegerField(default=0, verbose_name="Рейтинг пользователя")
+#     # author = models.ForeignKey(
+#     #     settings.AUTH_USER_MODEL,
+#     #     on_delete=models.CASCADE,
+#     # )
+#     def __str__(self):
+#         return self.username
+
+
 class Tag(models.Model):
     title = models.CharField(max_length=120, verbose_name=u"Заголовок ярлыка")
 
     def __str__(self):
         return self.title
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    upload = models.ImageField(upload_to='uploads/%Y/%m/%d/')
+    # nickname = models.TextField()
+    # avatar = models.ImageField(default='')
+
+    def __str__(self):
+        return self.user.username
 
 class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -44,7 +69,6 @@ class Question(models.Model):
     def dislike(self):
         self.dislikes += 1
         self.save()
-
 
     def make_tags(self, request):
         tags = request.POST["question_tags"].split(", ")
@@ -66,13 +90,6 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # nickname = models.TextField()
-    # avatar = models.ImageField(default=)
-
-    def __str__(self):
-        return self.user.username
 
 class Comment(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='comments')
@@ -90,4 +107,3 @@ class Comment(models.Model):
 
     def approved_comments(self):
         return self.comments.filter(approved_comment=True)
-
