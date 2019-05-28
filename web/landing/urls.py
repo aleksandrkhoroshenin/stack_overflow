@@ -18,4 +18,6 @@ urlpatterns = [
 
     path('user/<int:id>/', views.profile, name='user'),
     path('tag/<int:id>', views.tag, name='tag'),
+
+    # path('post/<int:id>/preference/userpreference', views.preference, name='postpreference'),
 ]

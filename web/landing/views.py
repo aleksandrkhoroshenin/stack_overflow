@@ -9,7 +9,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from django.contrib.auth.models import User
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth import authenticate, login, logout
 
@@ -191,3 +191,33 @@ def new(request):
             'objects': paginate(request, Question.objects.all()),
         })
 
+
+def like_question(request):
+    question_id = request.POST.get('question_id', '')
+    like_type = request.POST.get('like_type', '')
+    question =get_object_or_404(Question, pk=question_id)
+    if not question:
+        return JsonResponse({"status": "error"})
+
+    if (like_type == 'like'):
+        question.rating += 1
+    elif (like_type == 'dislike'):
+        question.rating -= 1
+    question.save()
+
+    return JsonResponse({"status": "ok"})
+
+def like_answer(request):
+    answer_id = request.POST.get('answer_id', '')
+    like_type = request.POST.get('like_type', '')
+    answer =get_object_or_404(Comment, pk=answer_id)
+    if not answer:
+        return JsonResponse({"status": "error"})
+
+    if (like_type == 'like'):
+        answer.rating += 1
+    elif (like_type == 'dislike'):
+        answer.rating -= 1
+    answer.save()
+
+    return JsonResponse({"status": "ok"})

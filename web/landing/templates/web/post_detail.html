@@ -18,7 +18,18 @@
                                     <h1>{{ post.title }}</h1>
                                     <p>{{ post.text|linebreaksbr }}</p>
                                       <p>{{ post.tags }}</p>
-                                  </div>
+
+                                  <tr>
+                    <td align="center">
+                        <span>
+                             <button class="btn btn-primary btn-lg" data-answer_id="{{ answer.id }}" data-like_type="dislike">dislike</button>
+                            {% csrf_token %}
+                            <a>{{ answer.rating }}</a>
+                            <button class="btn btn-primary btn-lg" data-answer_id="{{ answer.id }}" data-like_type="like">like</button>
+                            {% csrf_token %}
+                        </span>
+                    </td>
+                </tr>
                           </li>
                             <hr>
 

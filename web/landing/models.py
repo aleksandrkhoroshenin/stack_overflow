@@ -55,20 +55,21 @@ class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
-    likes = models.IntegerField(blank=True, null=True)
-    dislikes = models.IntegerField(blank=True, null=True)
+    # likes = models.IntegerField(blank=True, null=True)
+    # dislikes = models.IntegerField(blank=True, null=True)
+    likes = models.IntegerField(default=0, null=False, verbose_name="Рейтинг ответа")
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
     tags = models.ManyToManyField(Tag, blank=True)
     objects = QuestionManager()
 
-    def like(self):
-        self.likes += 1
-        self.save()
-
-    def dislike(self):
-        self.dislikes += 1
-        self.save()
+    # def like(self):
+    #     self.likes += 1
+    #     self.save()
+    #
+    # def dislike(self):
+    #     self.dislikes += 1
+    #     self.save()
 
     def make_tags(self, request):
         tags = request.POST["question_tags"].split(", ")

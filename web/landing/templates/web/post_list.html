@@ -12,13 +12,14 @@
                 </div>
 
                     {% for post in posts %}
-                        <div class="row">
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
                         <div class="col-2">
                           <img class="img-thumbnail img-fluid" src={% static "/img/ld.png"%}>
                         </div>
                         <div class="col-10">
-                        <ul class="list-group">
-                            <li class="list-group-item">
                                 <div class="post">
                                     <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
                                     <h6><p>{{ post.text|linebreaksbr }}</p></h6>
@@ -27,11 +28,22 @@
                                     </div>
                                     <a href="{% url 'post_detail' pk=post.pk %}"><h6>Comments: {{ post.comments.count }}</h6></a>
                                     <h6><p>Tags: {{ post.tags }}</p></h6>
-                                </div>
+                                    <tr>
+                                        <td align="center">
+                                            <span>
+                                                <button class="btn btn-primary btn-lg" data-answer_id="{{ answer.id }}" data-like_type="dislike">dislike</button>
+                                                {% csrf_token %}
+                                                <a>{{ Question.likes }}</a>
+                                                <button class="btn btn-primary btn-lg" data-answer_id="{{ answer.id }}" data-like_type="like">like</button>
+                                                {% csrf_token %}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </div> </div>
+                        </div>
                             </li>
                         </ul>
-                        </div>
-                        </div>
+
                     {% endfor %}
                 {% block paginator %}
                     {% include "web/paginator.html" %}

@@ -24,7 +24,7 @@ class QuestionForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields = ('title', 'text', ) # 'tags'
+        fields = ('title', 'text') # 'tags'
 
     def save(self, commit=True):
         cdata = self.cleaned_data
